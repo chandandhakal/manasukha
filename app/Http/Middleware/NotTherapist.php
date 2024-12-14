@@ -6,17 +6,15 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class EnsureUserIsNotTherapist
+class NotTherapist
 {
     /**
      * Handle an incoming request.
+     *
+     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (auth()->user()->role->name === 'therapist') {
-            return redirect()->route('home')->with('info', 'This section is only for patients.');
-        }
-
         return $next($request);
     }
-} 
+}

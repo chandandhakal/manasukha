@@ -13,11 +13,11 @@
                     <div class="space-y-4">
                         <div>
                             <p class="text-gray-600">Total Score:</p>
-                            <p class="text-2xl font-bold">{{ $phq9->total_score }}/27</p>
+                            <p class="text-2xl font-bold">{{ $phq9->score }}/27</p>
                         </div>
                         <div>
                             <p class="text-gray-600">Severity Level:</p>
-                            <p class="text-lg font-semibold">{{ $phq9->severity_level }}</p>
+                            <p class="text-lg font-semibold">{{ $severity_level }}</p>
                         </div>
                     </div>
                 @else
@@ -36,7 +36,7 @@
                         </div>
                         <div>
                             <p class="text-gray-600">Severity Level:</p>
-                            <p class="text-lg font-semibold">{{ $gad7->severity_level }}</p>
+                            <p class="text-lg font-semibold">{{ $gad7_severity_level }}</p>
                         </div>
                     </div>
                 @else

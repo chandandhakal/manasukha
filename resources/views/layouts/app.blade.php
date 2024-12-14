@@ -8,81 +8,23 @@
     <title>{{ config('app.name', 'Mental Health Support') }}</title>
 
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Styles -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    @stack('styles')
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+
+    <!-- Scripts -->
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="font-sans antialiased">
-    <div id="app">
-        <!-- Header -->
-        <header class="bg-white shadow-sm">
-            <nav class="container mx-auto px-6 py-4">
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center">
-                        <a href="{{ url('/') }}" class="text-xl font-bold text-blue-600">
-                            Mental Health Support
-                        </a>
-                        
-                        <div class="hidden md:flex items-center ml-10 space-x-6">
-                            <a href="#" class="text-gray-600 hover:text-blue-600">Services</a>
-                            <a href="#" class="text-gray-600 hover:text-blue-600">Community</a>
-                            <a href="#" class="text-gray-600 hover:text-blue-600">Resources</a>
-                            <a href="#" class="text-gray-600 hover:text-blue-600">About Us</a>
-                        </div>
-                    </div>
+    <div class="min-h-screen bg-gray-100">
+        @include('layouts.navigation')
 
-                    <div class="flex items-center space-x-4">
-                        @guest
-                            <a href="{{ route('signup.form') }}" class="text-gray-600 hover:text-blue-600">Sign Up</a>
-                            <a href="{{ route('login') }}" class="bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition">Login</a>
-                        @else
-                            <div class="relative" x-data="{ open: false }">
-                                <button @click="open = !open" class="flex items-center space-x-2">
-                                    <img src="{{ auth()->user()->avatar }}" alt="Profile" class="w-8 h-8 rounded-full">
-                                    <span class="text-gray-700">{{ auth()->user()->name }}</span>
-                                </button>
-                                
-                                <div x-show="open" @click.away="open = false" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1">
-                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
-                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Settings</a>
-                                    <form method="POST" action="{{ route('logout') }}">
-                                        @csrf
-                                        <button type="submit" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                            Logout
-                                        </button>
-                                    </form>
-                                </div>
-                            </div>
-                        @endguest
-                    </div>
+        <!-- Page Heading -->
+        @if (isset($header))
+            <header class="bg-white shadow">
+                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                    {{ $header }}
                 </div>
-            </nav>
-        </header>
-
-        <!-- Add this after the header section and before the main content -->
-        @if(session('success') || session('error') || session('info'))
-        <div class="container mx-auto px-4 py-4">
-            @if(session('success'))
-            <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4" role="alert">
-                {{ session('success') }}
-            </div>
-            @endif
-
-            @if(session('error'))
-            <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4" role="alert">
-                {{ session('error') }}
-            </div>
-            @endif
-
-            @if(session('info'))
-            <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 mb-4" role="alert">
-                {{ session('info') }}
-            </div>
-            @endif
-        </div>
+            </header>
         @endif
 
         <main>

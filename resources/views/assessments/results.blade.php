@@ -50,8 +50,8 @@
                 These results are for screening purposes only and do not constitute a medical diagnosis.
                 Please consult with a mental health professional for proper evaluation and treatment.
             </p>
-            <a href="{{ route('home') }}" class="inline-block bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700">
-                Continue to Dashboard
+            <a href="{{ route('therapists.index') }}" class="inline-block bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700">
+                Find a Therapist
             </a>
         </div>
     </div>

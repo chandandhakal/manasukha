@@ -1,151 +1,77 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container py-5">
-    <div class="row justify-content-center">
-        <div class="col-lg-8">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h1 class="h2 mb-0">{{ $typeName }}</h1>
-                <span class="badge bg-primary px-3 py-2">Question {{ $questionNumber }}/{{ $totalQuestions }}</span>
-            </div>
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-bold text-gray-900">{{ $typeName }}</h1>
+        <span class="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-medium">
+            Question {{ $questionNumber }}/{{ $totalQuestions }}
+        </span>
+    </div>
 
-            <div class="progress mb-5" style="height: 8px;">
-                <div class="progress-bar" role="progressbar" 
-                     style="width: {{ ($questionNumber / $totalQuestions) * 100 }}%"
-                     aria-valuenow="{{ ($questionNumber / $totalQuestions) * 100 }}"
-                     aria-valuemin="0" 
-                     aria-valuemax="100">
-                </div>
-            </div>
-
-            <div class="card question-card">
-                <div class="card-body p-4">
-                    <h2 class="card-title h4 mb-4">{{ $question }}</h2>
-
-                    <p class="text-muted mb-4">Over the last 2 weeks, how often have you been bothered by this problem?</p>
-
-                    <form action="{{ route('assessment.save-answer', ['type' => $type, 'number' => $questionNumber]) }}" 
-                          method="POST">
-                        @csrf
-                        <div class="answer-options">
-                            @foreach([
-                                ['value' => 0, 'label' => 'Not at all'],
-                                ['value' => 1, 'label' => 'Several days'],
-                                ['value' => 2, 'label' => 'More than half the days'],
-                                ['value' => 3, 'label' => 'Nearly every day']
-                            ] as $option)
-                                <button type="submit" 
-                                        name="answer" 
-                                        value="{{ $option['value'] }}" 
-                                        class="btn answer-btn {{ $previousAnswer === $option['value'] ? 'active' : '' }}">
-                                    {{ $option['label'] }}
-                                </button>
-                            @endforeach
-                        </div>
-                    </form>
-                </div>
-            </div>
-
-            <div class="d-flex justify-content-between mt-4">
-                @if($questionNumber > 1)
-                    <a href="{{ route('assessment.question', ['type' => $type, 'number' => $questionNumber - 1]) }}" 
-                       class="btn btn-outline-secondary">
-                        <i class="fas fa-arrow-left me-2"></i>Previous
-                    </a>
-                @else
-                    <div></div>
-                @endif
-
-                @if($questionNumber < $totalQuestions)
-                    <a href="{{ route('assessment.question', ['type' => $type, 'number' => $questionNumber + 1]) }}" 
-                       class="btn btn-outline-primary">
-                        Skip<i class="fas fa-arrow-right ms-2"></i>
-                    </a>
-                @endif
-            </div>
+    <div class="w-full bg-gray-200 rounded-full h-2 mb-8">
+        <div class="bg-indigo-600 h-2 rounded-full transition-all duration-300"
+             style="width: {{ ($questionNumber / $totalQuestions) * 100 }}%">
         </div>
     </div>
+
+    <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+        <div class="p-6">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">{{ $question }}</h2>
+
+            <p class="text-gray-600 mb-6">
+                Over the last 2 weeks, how often have you been bothered by this problem?
+            </p>
+
+            <form action="{{ route('assessment.save-answer', ['type' => $type, 'number' => $questionNumber]) }}" 
+                  method="POST">
+                @csrf
+                <div class="space-y-3">
+                    @foreach([
+                        ['value' => 0, 'label' => 'Not at all'],
+                        ['value' => 1, 'label' => 'Several days'],
+                        ['value' => 2, 'label' => 'More than half the days'],
+                        ['value' => 3, 'label' => 'Nearly every day']
+                    ] as $option)
+                        <button type="submit" 
+                                name="answer" 
+                                value="{{ $option['value'] }}" 
+                                class="w-full text-left px-6 py-4 rounded-lg border-2 transition-all duration-200
+                                    {{ $previousAnswer === $option['value'] 
+                                        ? 'bg-indigo-600 text-white border-indigo-600' 
+                                        : 'border-gray-200 text-gray-700 hover:border-indigo-600 hover:bg-indigo-50 hover:translate-x-2' }}">
+                            {{ $option['label'] }}
+                        </button>
+                    @endforeach
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="flex justify-between mt-6">
+        @if($questionNumber > 1)
+            <a href="{{ route('assessment.question', ['type' => $type, 'number' => $questionNumber - 1]) }}" 
+               class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 
+                      bg-white hover:bg-gray-50 transition-colors">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                </svg>
+                Previous
+            </a>
+        @else
+            <div></div>
+        @endif
+
+        @if($questionNumber < $totalQuestions)
+            <a href="{{ route('assessment.question', ['type' => $type, 'number' => $questionNumber + 1]) }}" 
+               class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 
+                      bg-white hover:bg-gray-50 transition-colors">
+                Skip
+                <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
+            </a>
+        @endif
+    </div>
 </div>
-
-@push('styles')
-<style>
-    .question-card {
-        border: none;
-        border-radius: 15px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-    }
-
-    .progress {
-        border-radius: 10px;
-        background-color: #e9ecef;
-    }
-
-    .progress-bar {
-        background-color: #4361ee;
-        transition: width 0.3s ease;
-    }
-
-    .badge {
-        font-weight: 500;
-        font-size: 0.9rem;
-        border-radius: 8px;
-    }
-
-    .answer-options {
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-    }
-
-    .answer-btn {
-        text-align: left;
-        padding: 16px 20px;
-        border: 2px solid #e9ecef;
-        border-radius: 12px;
-        background-color: white;
-        transition: all 0.2s ease;
-        font-size: 1rem;
-        color: #495057;
-    }
-
-    .answer-btn:hover {
-        border-color: #4361ee;
-        background-color: #f8f9ff;
-        transform: translateX(5px);
-    }
-
-    .answer-btn.active {
-        border-color: #4361ee;
-        background-color: #4361ee;
-        color: white;
-    }
-
-    .btn-outline-secondary,
-    .btn-outline-primary {
-        padding: 10px 20px;
-        border-radius: 8px;
-        font-weight: 500;
-    }
-
-    .btn-outline-secondary:hover,
-    .btn-outline-primary:hover {
-        transform: translateY(-2px);
-    }
-
-    @media (max-width: 768px) {
-        .container {
-            padding-top: 2rem;
-            padding-bottom: 2rem;
-        }
-
-        .h2 {
-            font-size: 1.5rem;
-        }
-
-        .answer-btn {
-            padding: 12px 16px;
-        }
-    }
-</style>
-@endpush
 @endsection 

@@ -1,164 +1,70 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container py-5">
-    <div class="row mb-5 justify-content-center">
-        <div class="col-lg-8 text-center">
-            <h1 class="display-4 mb-2">Mental Health Assessments</h1>
-            <p class="text-muted lead">Complete these assessments to track your mental well-being</p>
-        </div>
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="text-center mb-12">
+        <h1 class="text-4xl font-bold text-gray-900 mb-3">Mental Health Assessments</h1>
+        <p class="text-lg text-gray-600">Complete these assessments to track your mental well-being</p>
     </div>
     
-    <div class="row justify-content-center">
-        <div class="col-lg-10">
-            <div class="row g-4">
-                @foreach($assessmentStatus as $type => $assessment)
-                    <div class="col-md-6">
-                        <div class="card assessment-card h-100 {{ $assessment['completed'] ? 'completed' : '' }}">
-                            <div class="card-body p-4">
-                                <div class="d-flex justify-content-between align-items-start mb-3">
-                                    <div>
-                                        <h5 class="card-title h4 mb-1 {{ $assessment['completed'] ? 'text-success' : '' }}">
-                                            {{ $assessment['name'] }}
-                                        </h5>
-                                        <p class="card-subtitle text-muted">{{ $assessment['description'] }}</p>
-                                    </div>
-                                    @if($assessment['completed'])
-                                        <div class="status-badge">
-                                            <i class="fas fa-check-circle"></i>
-                                            <span>Completed</span>
-                                        </div>
-                                    @endif
-                                </div>
-                                
-                                <div class="assessment-info mb-4">
-                                    <div class="info-item">
-                                        <i class="far fa-clock text-muted"></i>
-                                        <span>5-10 minutes</span>
-                                    </div>
-                                    <div class="info-item">
-                                        <i class="far fa-question-circle text-muted"></i>
-                                        <span>{{ $type === 'gad7' ? '7' : '9' }} questions</span>
-                                    </div>
-                                </div>
-                                
-                                @if($assessment['completed'])
-                                    <button class="btn btn-success btn-lg w-100 disabled">
-                                        <i class="fas fa-check me-2"></i>Completed Today
-                                    </button>
-                                @else
-                                    <a href="{{ route('assessment.question', ['type' => $type, 'number' => 1]) }}" 
-                                       class="btn btn-primary btn-lg w-100">
-                                        <i class="fas fa-play-circle me-2"></i>Start Assessment
-                                    </a>
-                                @endif
-                            </div>
+    <div class="grid md:grid-cols-2 gap-6">
+        @foreach($assessmentStatus as $type => $assessment)
+            <div class="bg-white rounded-xl shadow-sm overflow-hidden 
+                {{ $assessment['completed'] ? 'border-l-4 border-green-500' : 'border-l-4 border-gray-300' }}">
+                <div class="p-6">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h2 class="text-xl font-semibold mb-1 
+                                {{ $assessment['completed'] ? 'text-green-600' : 'text-gray-800' }}">
+                                {{ $assessment['name'] }}
+                            </h2>
+                            <p class="text-gray-600">{{ $assessment['description'] }}</p>
+                        </div>
+                        @if($assessment['completed'])
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-600">
+                                <svg class="w-4 h-4 mr-1.5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                </svg>
+                                Completed
+                            </span>
+                        @endif
+                    </div>
+                    
+                    <div class="flex space-x-6 mb-6">
+                        <div class="flex items-center text-gray-600">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            <span class="text-sm">5-10 minutes</span>
+                        </div>
+                        <div class="flex items-center text-gray-600">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            <span class="text-sm">{{ $type === 'gad7' ? '7' : '9' }} questions</span>
                         </div>
                     </div>
-                @endforeach
+                    
+                    @if($assessment['completed'])
+                        <button disabled 
+                            class="w-full py-3 px-4 bg-green-50 text-green-600 rounded-lg font-medium flex items-center justify-center">
+                            <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                            </svg>
+                            Completed Today
+                        </button>
+                    @else
+                        <a href="{{ route('assessment.question', ['type' => $type, 'number' => 1]) }}" 
+                           class="w-full py-3 px-4 bg-indigo-600 text-white rounded-lg font-medium flex items-center justify-center hover:bg-indigo-700 transition-colors">
+                            <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"/>
+                            </svg>
+                            Start Assessment
+                        </a>
+                    @endif
+                </div>
             </div>
-        </div>
+        @endforeach
     </div>
 </div>
-
-@push('styles')
-<style>
-    .assessment-card {
-        transition: all 0.3s ease;
-        border: none;
-        border-radius: 15px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-        overflow: hidden;
-        max-width: 500px;
-        margin: 0 auto;
-    }
-
-    .assessment-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
-    }
-
-    .assessment-card.completed {
-        background: linear-gradient(to right bottom, #f8fff9, #ffffff);
-        border-left: 5px solid #28a745;
-    }
-
-    .status-badge {
-        background-color: #e8f5e9;
-        color: #28a745;
-        padding: 8px 16px;
-        border-radius: 20px;
-        font-size: 0.9rem;
-        font-weight: 500;
-        display: flex;
-        align-items: center;
-        gap: 6px;
-    }
-
-    .assessment-info {
-        display: flex;
-        gap: 20px;
-    }
-
-    .info-item {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        color: #6c757d;
-        font-size: 0.9rem;
-    }
-
-    .btn {
-        padding: 12px 24px;
-        border-radius: 10px;
-        font-weight: 500;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        transition: all 0.3s ease;
-    }
-
-    .btn-primary {
-        background-color: #4361ee;
-        border-color: #4361ee;
-    }
-
-    .btn-primary:hover {
-        background-color: #3a53d0;
-        border-color: #3a53d0;
-        transform: translateY(-2px);
-    }
-
-    .btn-success.disabled {
-        background-color: #e8f5e9;
-        border-color: #e8f5e9;
-        color: #28a745;
-        opacity: 1;
-    }
-
-    .display-4 {
-        font-weight: 600;
-        color: #2d3748;
-    }
-
-    .lead {
-        font-size: 1.1rem;
-    }
-
-    @media (max-width: 768px) {
-        .container {
-            padding-top: 2rem;
-            padding-bottom: 2rem;
-        }
-        
-        .display-4 {
-            font-size: 2rem;
-        }
-        
-        .assessment-info {
-            flex-direction: column;
-            gap: 10px;
-        }
-    }
-</style>
-@endpush
 @endsection 

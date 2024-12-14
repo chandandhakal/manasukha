@@ -45,7 +45,7 @@ class AuthController extends Controller
                 ->with('success', 'Account created successfully! Your therapist account is pending verification.');
         }
 
-        return redirect()->route('assessment.show')
+        return redirect()->route('assessment.index')
             ->with('success', 'Account created successfully! Please complete the initial assessment.');
     }
 

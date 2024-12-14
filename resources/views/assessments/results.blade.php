@@ -32,7 +32,7 @@
                     <div class="space-y-4">
                         <div>
                             <p class="text-gray-600">Total Score:</p>
-                            <p class="text-2xl font-bold">{{ $gad7->total_score }}/21</p>
+                            <p class="text-2xl font-bold">{{ $gad7->score }}/21</p>
                         </div>
                         <div>
                             <p class="text-gray-600">Severity Level:</p>
